@@ -1,9 +1,11 @@
-// @todo: Темплейт карточки
+const cardTemplate = document.querySelector('#card-template').content;
 
-// @todo: DOM узлы
+const createCard = card => {
+    const cardElement = cardTemplate.cloneNode();
 
-// @todo: Функция создания карточки
+    cardElement.querySelector('.card__image').src = card.link;
+    cardElement.querySelector('.card__title').textContent = card.name;
 
-// @todo: Функция удаления карточки
+    return cardElement;
+};
 
-// @todo: Вывести карточки на страницу

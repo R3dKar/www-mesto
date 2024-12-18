@@ -21,14 +21,14 @@ const imageCaptionElement = imagePopup.querySelector('.popup__caption');
 const openModal = popup => popup.classList.add('popup_is-opened');
 const closeModal = popup => popup.classList.remove('popup_is-opened');
 const handleModalClose = event => closeModal(event.target.closest('.popup'));
+const configureModal = popup => {
+  popup.classList.add('popup_is-animated');
+  popup.querySelector('.popup__close').addEventListener('click', handleModalClose);
+};
 
-profilePopup.classList.add('popup_is-animated');
-cardPopup.classList.add('popup_is-animated');
-imagePopup.classList.add('popup_is-animated');
-
-profilePopup.querySelector('.popup__close').addEventListener('click', handleModalClose);
-cardPopup.querySelector('.popup__close').addEventListener('click', handleModalClose);
-imagePopup.querySelector('.popup__close').addEventListener('click', handleModalClose);
+configureModal(profilePopup);
+configureModal(cardPopup);
+configureModal(imagePopup);
 
 
 const createCard = card => {

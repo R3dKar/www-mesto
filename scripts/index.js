@@ -20,6 +20,8 @@ const imagePopup = document.querySelector('.popup_type_image');
 const openModal = popup => popup.classList.add('popup_is-opened');
 const closeModal = popup => popup.classList.remove('popup_is-opened');
 
+profilePopup.querySelector('.popup__close').addEventListener('click', event => closeModal(event.target.closest('.popup')));
+
 const openProfilePopup = () => {
   const name = document.querySelector('.profile__title').textContent;
   const description = document.querySelector('.profile__description').textContent;

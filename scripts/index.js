@@ -56,3 +56,33 @@ const openProfilePopup = () => {
 };
 
 document.querySelector('.profile__edit-button').addEventListener('click', openProfilePopup);
+
+
+cardPopup.querySelector('.popup__close').addEventListener('click', handleModalClose);
+
+const cardFormElement = cardPopup.querySelector('.popup__form');
+const cardNameInput = cardFormElement.querySelector('.popup__input_type_card-name');
+const urlInput = cardFormElement.querySelector('.popup__input_type_url');
+
+const handleCardPopupSubmit = event => {
+  event.preventDefault();
+
+  const card = {
+    name: cardNameInput.value,
+    link: urlInput.value
+  };
+
+  cardsContainer.prepend(createCard(card));
+  handleModalClose(event);
+};
+
+cardFormElement.addEventListener('submit', handleCardPopupSubmit);
+
+const openCardPopup = () => {
+  cardNameInput.value = '';
+  urlInput.value = '';
+
+  openModal(cardPopup);
+}
+
+document.querySelector('.profile__add-button').addEventListener('click', openCardPopup);

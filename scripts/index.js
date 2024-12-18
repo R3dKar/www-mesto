@@ -31,7 +31,7 @@ const profileFormElement = profilePopup.querySelector('.popup__form');
 const nameInput = profileFormElement.querySelector('.popup__input_type_name');
 const descriptionInput = profileFormElement.querySelector('.popup__input_type_description');
 
-const handleProfilePopupSubmit = event => {
+const handleProfileFormSubmit = event => {
   event.preventDefault();
 
   const name = nameInput.value;
@@ -43,7 +43,7 @@ const handleProfilePopupSubmit = event => {
   handleModalClose(event);
 };
 
-profileFormElement.addEventListener('submit', handleProfilePopupSubmit);
+profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 
 const openProfilePopup = () => {
   const name = nameElement.textContent;
@@ -64,7 +64,7 @@ const cardFormElement = cardPopup.querySelector('.popup__form');
 const cardNameInput = cardFormElement.querySelector('.popup__input_type_card-name');
 const urlInput = cardFormElement.querySelector('.popup__input_type_url');
 
-const handleCardPopupSubmit = event => {
+const handleCardFormSubmit = event => {
   event.preventDefault();
 
   const card = {
@@ -76,7 +76,7 @@ const handleCardPopupSubmit = event => {
   handleModalClose(event);
 };
 
-cardFormElement.addEventListener('submit', handleCardPopupSubmit);
+cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
 const openCardPopup = () => {
   cardNameInput.value = '';

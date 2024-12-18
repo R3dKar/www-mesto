@@ -9,6 +9,13 @@ const createCard = card => {
 
   cardElement.querySelector('.card__like-button').addEventListener('click', event => event.target.classList.toggle('card__like-button_is-active'));
   cardElement.querySelector('.card__delete-button').addEventListener('click', event => event.target.closest('.card').remove());
+  cardElement.querySelector('.card__image').addEventListener('click', () => {
+    imageElement.src = card.link;
+    imageElement.alt = card.name;
+    captionElement.textContent = card.name;
+
+    openModal(imagePopup);
+  });
 
   return cardElement;
 };
@@ -89,3 +96,9 @@ const openCardPopup = () => {
 }
 
 document.querySelector('.profile__add-button').addEventListener('click', openCardPopup);
+
+
+imagePopup.querySelector('.popup__close').addEventListener('click', handleModalClose);
+
+const imageElement = imagePopup.querySelector('.popup__image');
+const captionElement = imagePopup.querySelector('.popup__caption');

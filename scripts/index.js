@@ -19,3 +19,15 @@ const imagePopup = document.querySelector('.popup_type_image');
 
 const openModal = popup => popup.classList.add('popup_is-opened');
 const closeModal = popup => popup.classList.remove('popup_is-opened');
+
+const openProfilePopup = () => {
+  const name = document.querySelector('.profile__title').textContent;
+  const description = document.querySelector('.profile__description').textContent;
+
+  profilePopup.querySelector('.popup__input_type_name').value = name;
+  profilePopup.querySelector('.popup__input_type_description').value = description;
+
+  openModal(profilePopup);
+};
+
+document.querySelector('.profile__edit-button').addEventListener('click', openProfilePopup);

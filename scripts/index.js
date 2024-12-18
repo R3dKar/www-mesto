@@ -11,3 +11,9 @@ const createCard = card => {
 };
 
 initialCards.forEach(card => cardsContainer.append(createCard(card)));
+
+const editModal = document.querySelector('.popup_type_edit');
+const newCardModal = document.querySelector('.popup_type_new-card');
+const imageModal = document.querySelector('.popup_type_image');
+
+const openModal = modal => modal.classList.add('popup_is-opened');

@@ -19,15 +19,38 @@ const imagePopup = document.querySelector('.popup_type_image');
 
 const openModal = popup => popup.classList.add('popup_is-opened');
 const closeModal = popup => popup.classList.remove('popup_is-opened');
+const handleModalClose = event => closeModal(event.target.closest('.popup'));
 
-profilePopup.querySelector('.popup__close').addEventListener('click', event => closeModal(event.target.closest('.popup')));
+
+profilePopup.querySelector('.popup__close').addEventListener('click', handleModalClose);
+
+const nameElement = document.querySelector('.profile__title');
+const descriptionElement = document.querySelector('.profile__description');
+
+const profileFormElement = profilePopup.querySelector('.popup__form');
+const nameInput = profileFormElement.querySelector('.popup__input_type_name');
+const descriptionInput = profileFormElement.querySelector('.popup__input_type_description');
+
+const handleProfilePopupSubmit = event => {
+  event.preventDefault();
+
+  const name = nameInput.value;
+  const description = descriptionInput.value;
+
+  nameElement.textContent = name;
+  descriptionElement.textContent = description;
+
+  handleModalClose(event);
+};
+
+profileFormElement.addEventListener('submit', handleProfilePopupSubmit);
 
 const openProfilePopup = () => {
-  const name = document.querySelector('.profile__title').textContent;
-  const description = document.querySelector('.profile__description').textContent;
+  const name = nameElement.textContent;
+  const description =descriptionElement.textContent;
 
-  profilePopup.querySelector('.popup__input_type_name').value = name;
-  profilePopup.querySelector('.popup__input_type_description').value = description;
+  nameInput.value = name;
+  descriptionInput.value = description;
 
   openModal(profilePopup);
 };

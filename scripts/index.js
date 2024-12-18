@@ -17,3 +17,4 @@ const newCardPopup = document.querySelector('.popup_type_new-card');
 const imagePopup = document.querySelector('.popup_type_image');
 
 const openModal = popup => popup.classList.add('popup_is-opened');
+const closeModal = popup => popup.classList.remove('popup_is-opened');

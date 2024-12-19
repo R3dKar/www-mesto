@@ -1,7 +1,9 @@
 import '../pages/index.css';
-import { initialCards } from './cards.js';
 
-const cardTemplate = document.querySelector('#card-template').content;
+import { initialCards } from './cards.js';
+import { createCard } from './card.js';
+import { openModal, handleModalClose, configureModal } from './modal.js';
+
 const cardsContainer = document.querySelector('.places__list');
 const nameElement = document.querySelector('.profile__title');
 const descriptionElement = document.querySelector('.profile__description');
@@ -21,39 +23,24 @@ const cardUrlInput = cardFormElement.querySelector('.popup__input_type_url');
 const imageElement = imagePopup.querySelector('.popup__image');
 const imageCaptionElement = imagePopup.querySelector('.popup__caption');
 
-const openModal = popup => popup.classList.add('popup_is-opened');
-const closeModal = popup => popup.classList.remove('popup_is-opened');
-const handleModalClose = event => closeModal(event.target.closest('.popup'));
-const configureModal = popup => {
-  popup.classList.add('popup_is-animated');
-  popup.querySelector('.popup__close').addEventListener('click', handleModalClose);
-};
-
 configureModal(profilePopup);
 configureModal(cardPopup);
 configureModal(imagePopup);
 
+const handleOpenImagePopup = event => {
+  const cardElement = event.target.closest('.card');
 
-const createCard = card => {
-  const cardElement = cardTemplate.cloneNode(true);
+  const name = cardElement.querySelector('.card__title').textContent;
+  const link = cardElement.querySelector('.card__image').src;
 
-  cardElement.querySelector('.card__image').src = card.link;
-  cardElement.querySelector('.card__title').textContent = card.name;
+  imageElement.src = link;
+  imageElement.alt = name;
+  imageCaptionElement.textContent = name;
 
-  cardElement.querySelector('.card__like-button').addEventListener('click', event => event.target.classList.toggle('card__like-button_is-active'));
-  cardElement.querySelector('.card__delete-button').addEventListener('click', event => event.target.closest('.card').remove());
-  cardElement.querySelector('.card__image').addEventListener('click', () => {
-    imageElement.src = card.link;
-    imageElement.alt = card.name;
-    imageCaptionElement.textContent = card.name;
-
-    openModal(imagePopup);
-  });
-
-  return cardElement;
+  openModal(imagePopup);
 };
 
-initialCards.forEach(card => cardsContainer.append(createCard(card)));
+initialCards.forEach(card => cardsContainer.append(createCard(card, handleOpenImagePopup)));
 
 
 const handleProfileFormSubmit = event => {
@@ -90,7 +77,7 @@ const handleCardFormSubmit = event => {
     link: cardUrlInput.value
   };
 
-  cardsContainer.prepend(createCard(card));
+  cardsContainer.prepend(createCard(card, handleOpenImagePopup));
   handleModalClose(event);
 };
 

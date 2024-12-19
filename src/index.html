@@ -36,8 +36,16 @@
       <button type="button" class="popup__close"></button>
       <h3 class="popup__title">Редактировать профиль</h3>
       <form class="popup__form" name="edit-profile">
-        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
-        <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
+        <div class="popup__input-wrapper">
+          <input type="text" name="name" id="profile-name" class="popup__input popup__input_type_name" placeholder="Имя" required minlength="2" maxlength="40">
+          <span class="popup__error-message popup__error-message_active profile-name-error">ошибка стоп 0000</span>
+        </div>
+
+        <div class="popup__input-wrapper">
+          <input type="text" name="description" id="profile-description" class="popup__input popup__input_type_description" placeholder="Занятие" required minlength="2" maxlength="200">
+          <span class="popup__error-message profile-description-error">ошибка стоп 0000</span>
+        </div>
+
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>

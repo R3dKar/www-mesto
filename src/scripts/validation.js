@@ -22,7 +22,7 @@ const updateInputErrorMessage = (inputElement, errorMessage, settings) => {
     errorMessageElement.textContent = errorMessage;
     errorMessageElement.classList.add(settings.errorClass);
 
-    inputElement.classList.remove(settings.inputErrorClass);
+    inputElement.classList.add(settings.inputErrorClass);
   }
 };
 

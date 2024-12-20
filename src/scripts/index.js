@@ -18,10 +18,6 @@ const validationSettings = {
 enableValidation(validationSettings);
 
 
-const cardsContainer = document.querySelector('.places__list');
-const nameElement = document.querySelector('.profile__title');
-const descriptionElement = document.querySelector('.profile__description');
-
 const profilePopup = document.querySelector('.popup_type_edit');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const imagePopup = document.querySelector('.popup_type_image');
@@ -30,6 +26,10 @@ configureModal(profilePopup);
 configureModal(cardPopup);
 configureModal(imagePopup);
 
+
+const cardsContainer = document.querySelector('.places__list');
+const nameElement = document.querySelector('.profile__title');
+const descriptionElement = document.querySelector('.profile__description');
 
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const profileNameInput = profileFormElement.querySelector('.popup__input_type_name');
@@ -49,6 +49,7 @@ const handleOpenImagePopup = event => {
   const name = cardElement.querySelector('.card__title').textContent;
   const link = cardElement.querySelector('.card__image').src;
 
+  imageElement.src = '';
   imageElement.src = link;
   imageElement.alt = name;
   imageCaptionElement.textContent = name;

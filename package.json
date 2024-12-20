@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "npx webpack --mode=production",
-    "dev": "npx webpack server --mode=development"
+    "dev": "npx webpack serve --mode=development"
   },
 
   "devDependencies": {

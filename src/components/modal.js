@@ -1,6 +1,18 @@
-export const openModal = popup => popup.classList.add('popup_is-opened');
+const handleEscapeKeyPress = event => {
+  if (event.key !== 'Escape') return;
 
-export const closeModal = popup => popup.classList.remove('popup_is-opened');
+  closeModal(document.querySelector('.popup_is-opened'));
+};
+
+export const openModal = popup => {
+  popup.classList.add('popup_is-opened');
+  document.addEventListener('keydown', handleEscapeKeyPress);
+};
+
+export const closeModal = popup => {
+  popup.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', handleEscapeKeyPress);
+};
 
 export const handleModalClose = event => closeModal(event.target.closest('.popup'));
 
@@ -11,11 +23,6 @@ export const configureModal = popup => {
 
   popup.addEventListener('click', event => {
     if (!event.target.classList.contains('popup')) return;
-    closeModal(popup);
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key !== 'Escape') return;
     closeModal(popup);
   });
 };

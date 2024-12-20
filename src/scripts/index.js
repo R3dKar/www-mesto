@@ -3,7 +3,7 @@ import '../pages/index.css';
 import { initialCards } from './cards.js';
 import { createCard } from './card.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
-import { enableValidation } from './validation.js';
+import { enableValidation, clearFormErrorMessages } from './validation.js';
 
 const cardsContainer = document.querySelector('.places__list');
 const nameElement = document.querySelector('.profile__title');
@@ -69,11 +69,12 @@ const handleProfileFormSubmit = event => {
 
 const openProfilePopup = () => {
   const name = nameElement.textContent;
-  const description =descriptionElement.textContent;
+  const description = descriptionElement.textContent;
 
   profileNameInput.value = name;
   profileDescriptionInput.value = description;
 
+  clearFormErrorMessages(profileFormElement, validationSettings);
   openModal(profilePopup);
 };
 
@@ -97,6 +98,7 @@ const openCardPopup = () => {
   cardNameInput.value = '';
   cardUrlInput.value = '';
 
+  clearFormErrorMessages(cardFormElement, validationSettings);
   openModal(cardPopup);
 }
 

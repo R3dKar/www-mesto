@@ -10,10 +10,10 @@ const updateSubmitButton = (submitButtonElement, inputElements, settings) => {
   }
 };
 
-const updateInputErrorMessage = (inputElement, errorMessage, settings) => {
+const updateInputErrorMessage = (inputElement, isValid, errorMessage, settings) => {
   const errorMessageElement = inputElement.closest(settings.formSelector).querySelector(`.${inputElement.id}-error`);
 
-  if (inputElement.validity.valid) {
+  if (isValid) {
     errorMessageElement.textContent = '';
     errorMessageElement.classList.remove(settings.errorClass);
 
@@ -26,6 +26,14 @@ const updateInputErrorMessage = (inputElement, errorMessage, settings) => {
   }
 };
 
+export const clearFormErrorMessages = (formElement, settings) => {
+  const submitButtonElement = formElement.querySelector(settings.submitButtonSelector);
+  const inputElements = Array.from(formElement.querySelectorAll(settings.inputSelector));
+
+  inputElements.forEach(inputElement => updateInputErrorMessage(inputElement, true, '', settings));
+  updateSubmitButton(submitButtonElement, inputElements, settings);
+}
+
 const setEventListeners = (formElement, settings) => {
   formElement.addEventListener('submit', event => event.preventDefault() );
 
@@ -34,7 +42,7 @@ const setEventListeners = (formElement, settings) => {
 
   formElement.addEventListener('input', event => {
     const inputElement = event.target;
-    updateInputErrorMessage(inputElement, inputElement.validationMessage, settings);
+    updateInputErrorMessage(inputElement, inputElement.validity.valid, inputElement.validationMessage, settings);
     updateSubmitButton(submitButtonElement, inputElements, settings);
   });
 

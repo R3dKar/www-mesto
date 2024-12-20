@@ -5,6 +5,19 @@ import { createCard } from './card.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
 import { enableValidation, clearFormErrorMessages } from './validation.js';
 
+
+const validationSettings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error-message_active'
+};
+
+enableValidation(validationSettings);
+
+
 const cardsContainer = document.querySelector('.places__list');
 const nameElement = document.querySelector('.profile__title');
 const descriptionElement = document.querySelector('.profile__description');
@@ -12,6 +25,11 @@ const descriptionElement = document.querySelector('.profile__description');
 const profilePopup = document.querySelector('.popup_type_edit');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const imagePopup = document.querySelector('.popup_type_image');
+
+configureModal(profilePopup);
+configureModal(cardPopup);
+configureModal(imagePopup);
+
 
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const profileNameInput = profileFormElement.querySelector('.popup__input_type_name');
@@ -24,20 +42,6 @@ const cardUrlInput = cardFormElement.querySelector('.popup__input_type_url');
 const imageElement = imagePopup.querySelector('.popup__image');
 const imageCaptionElement = imagePopup.querySelector('.popup__caption');
 
-configureModal(profilePopup);
-configureModal(cardPopup);
-configureModal(imagePopup);
-
-const validationSettings = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error-message_active'
-};
-
-enableValidation(validationSettings);
 
 const handleOpenImagePopup = event => {
   const cardElement = event.target.closest('.card');

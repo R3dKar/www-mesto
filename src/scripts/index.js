@@ -3,6 +3,7 @@ import '../pages/index.css';
 import { initialCards } from './cards.js';
 import { createCard } from './card.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
+import { enableValidation } from './validation.js';
 
 const cardsContainer = document.querySelector('.places__list');
 const nameElement = document.querySelector('.profile__title');
@@ -26,6 +27,17 @@ const imageCaptionElement = imagePopup.querySelector('.popup__caption');
 configureModal(profilePopup);
 configureModal(cardPopup);
 configureModal(imagePopup);
+
+const validationSettings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error-message_active'
+};
+
+enableValidation(validationSettings);
 
 const handleOpenImagePopup = event => {
   const cardElement = event.target.closest('.card');

@@ -35,7 +35,9 @@ export const clearFormErrorMessages = (formElement, settings) => {
 }
 
 const setEventListeners = (formElement, settings) => {
-  formElement.addEventListener('submit', event => event.preventDefault() );
+  formElement.addEventListener('submit', event => {
+    event.preventDefault();
+  });
 
   const submitButtonElement = formElement.querySelector(settings.submitButtonSelector);
   const inputElements = Array.from(formElement.querySelectorAll(settings.inputSelector));

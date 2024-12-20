@@ -61,8 +61,6 @@ initialCards.forEach(card => cardsContainer.append(createCard(card, handleOpenIm
 
 
 const handleProfileFormSubmit = event => {
-  event.preventDefault();
-
   const name = profileNameInput.value;
   const description = profileDescriptionInput.value;
 
@@ -88,8 +86,6 @@ document.querySelector('.profile__edit-button').addEventListener('click', openPr
 
 
 const handleCardFormSubmit = event => {
-  event.preventDefault();
-
   const card = {
     name: cardNameInput.value,
     link: cardUrlInput.value

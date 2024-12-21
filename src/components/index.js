@@ -101,7 +101,7 @@ const openCardPopup = () => {
 
   clearFormErrorMessages(cardFormElement, validationSettings);
   openModal(cardPopup);
-}
+};
 
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
 document.querySelector('.profile__add-button').addEventListener('click', openCardPopup);

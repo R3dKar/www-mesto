@@ -36,6 +36,9 @@ const nameElement = document.querySelector('.profile__title');
 const descriptionElement = document.querySelector('.profile__description');
 const avatarElement = document.querySelector('.profile__image');
 
+const editProfileButton = document.querySelector('.profile__edit-button');
+const addCardButton = document.querySelector('.profile__add-button');
+
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const profileNameInput = profileFormElement.querySelector('.popup__input_type_name');
 const profileDescriptionInput = profileFormElement.querySelector('.popup__input_type_description');
@@ -56,7 +59,11 @@ const avatarFormElement = avatarPopup.querySelector('.popup__form');
 const avatarUrlInput = avatarFormElement.querySelector('.popup__input_type_profile-avatar');
 const avatarFormButton = avatarFormElement.querySelector('.popup__button');
 
+
 let currentAvatarUrl;
+let targetCardForDeletion;
+
+
 const updateProfile = data => {
   nameElement.textContent = data.name;
   descriptionElement.textContent = data.about;
@@ -64,10 +71,6 @@ const updateProfile = data => {
   avatarElement.style.backgroundImage = `url(${data.avatar})`;
   currentAvatarUrl = data.avatar;
 };
-
-getProfile()
-.then(data => updateProfile(data))
-.catch(err => console.log(err));
 
 
 const handleLikeCard = (event, card) => {
@@ -88,18 +91,11 @@ const handleClickCard = (event, card) => {
   openModal(imagePopup);
 };
 
-let targetCard;
 const handleDeleteCard = (event, card) => {
-  targetCard = card;
+  targetCardForDeletion = card;
 
   openModal(confirmPopup);
 };
-
-Promise.all([getCards(), getProfileId()])
-.then(([cards, profileId]) => {
-  cards.forEach(card => cardsContainer.append(createCardElement(card, profileId, handleLikeCard, handleClickCard, handleDeleteCard)));
-})
-.catch(err => console.log(err));
 
 
 const handleProfileFormSubmit = event => {
@@ -131,7 +127,7 @@ const openProfilePopup = () => {
 };
 
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
-document.querySelector('.profile__edit-button').addEventListener('click', openProfilePopup);
+editProfileButton.addEventListener('click', openProfilePopup);
 
 
 const handleCardFormSubmit = event => {
@@ -160,16 +156,16 @@ const openCardPopup = () => {
 };
 
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
-document.querySelector('.profile__add-button').addEventListener('click', openCardPopup);
+addCardButton.addEventListener('click', openCardPopup);
 
 
 const handleConfirmFormSubmit = event => {
   confirmFormButton.textContent = 'Удаление...';
 
-  deleteCard(targetCard._id)
+  deleteCard(targetCardForDeletion._id)
   .then(() => {
-    deleteCardElement(targetCard);
-    targetCard = undefined;
+    deleteCardElement(targetCardForDeletion);
+    targetCardForDeletion = undefined;
     handleModalClose(event);
   })
   .catch(err => console.log(err))
@@ -205,4 +201,22 @@ const handleAvatarFormSubmit = event => {
 };
 
 avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
-avatarElement.addEventListener('click', openAvatarPopup);
+
+
+editProfileButton.setAttribute('disabled', '');
+
+getProfile()
+.then(data => {
+  updateProfile(data);
+
+  editProfileButton.removeAttribute('disabled');
+  avatarElement.addEventListener('click', openAvatarPopup);
+})
+.catch(err => console.log(err));
+
+
+Promise.all([getCards(), getProfileId()])
+.then(([cards, profileId]) => {
+  cards.forEach(card => cardsContainer.append(createCardElement(card, profileId, handleLikeCard, handleClickCard, handleDeleteCard)));
+})
+.catch(err => console.log(err));

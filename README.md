@@ -20,6 +20,6 @@
 Скачать проект, создать `.env` (пример данных в `.env.example`), выполнить:
 
 ```bash
-npm si
+npm ci
 npm run dev
 ```

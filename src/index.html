@@ -31,6 +31,7 @@
       © 2024 Mesto Russia
     </p>
   </footer>
+
   <div class="popup popup_type_edit">
     <div class="popup__content">
       <button type="button" class="popup__close"></button>
@@ -66,6 +67,27 @@
       <button type="button" class="popup__close"></button>
       <img src="" alt="" class="popup__image">
       <p class="popup__caption"></p>
+    </div>
+  </div>
+  <div class="popup popup_type_confirm">
+    <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Вы уверены?</h3>
+      <form class="popup__form" name="confirm">
+        <button type="submit" class="button popup__button">Да</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_type_edit-avatar">
+    <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <h3 class="popup__title">Обновить аватар</h3>
+      <form class="popup__form" name="edit-avatar">
+        <input type="url" name="profile-avatar" id="profile-avatar" class="popup__input popup__input_type_profile-avatar" placeholder="Ссылка на аватар" required>
+        <span class="popup__error-message profile-avatar-error"></span>
+
+        <button type="submit" class="button popup__button">Сохранить</button>
+      </form>
     </div>
   </div>
 </div>

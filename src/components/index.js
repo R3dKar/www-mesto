@@ -21,10 +21,14 @@ enableValidation(validationSettings);
 const profilePopup = document.querySelector('.popup_type_edit');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const imagePopup = document.querySelector('.popup_type_image');
+const confirmPopup = document.querySelector('.popup_type_confirm');
+const avatarPopup = document.querySelector('.popup_type_edit-avatar');
 
 configureModal(profilePopup);
 configureModal(cardPopup);
 configureModal(imagePopup);
+configureModal(confirmPopup);
+configureModal(avatarPopup);
 
 
 const cardsContainer = document.querySelector('.places__list');

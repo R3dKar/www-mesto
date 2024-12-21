@@ -14,7 +14,7 @@
 
 ### GitHub Pages
 
-[Ссылка]()
+[Ссылка](https://r3dkar.github.io/www-mesto/)
 
 ### Вручную
 Скачать проект, создать `.env` (пример данных в `.env.example`), выполнить:

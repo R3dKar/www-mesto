@@ -1,7 +1,7 @@
 import '../pages/index.css';
 
-import { createCardElement } from './card.js';
-import { editProfile, getCards, getProfile, getProfileId, createCard } from './api.js';
+import { createCardElement, deleteCardElement, updateCardElement } from './card.js';
+import { getProfile, getProfileId, editProfile, getCards, createCard, deleteCard, removeLike, addLike } from './api.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
 import { enableValidation, clearFormErrorMessages } from './validation.js';
 
@@ -49,6 +49,9 @@ const cardFormButton = cardFormElement.querySelector('.popup__button');
 const imageElement = imagePopup.querySelector('.popup__image');
 const imageCaptionElement = imagePopup.querySelector('.popup__caption');
 
+const confirmFormElement = confirmPopup.querySelector('.popup__form');
+const confirmFormButton = confirmFormElement.querySelector('.popup__button');
+
 
 const updateProfile = data => {
   nameElement.textContent = data.name;
@@ -61,23 +64,34 @@ getProfile()
 .catch(err => console.log(err));
 
 
-const handleOpenImagePopup = event => {
-  const cardElement = event.target.closest('.card');
+const handleLikeCard = (event, card) => {
+  Promise.all([
+    (event.target.classList.contains('card__like-button_is-active') ? removeLike(card._id) : addLike(card._id)),
+    getProfileId()
+  ])
+  .then(([card, profileId]) => updateCardElement(card, profileId))
+  .catch(err => console.log(err));
+};
 
-  const name = cardElement.querySelector('.card__title').textContent;
-  const link = cardElement.querySelector('.card__image').src;
-
+const handleClickCard = (event, card) => {
   imageElement.src = '';
-  imageElement.src = link;
-  imageElement.alt = name;
-  imageCaptionElement.textContent = name;
+  imageElement.src = card.link;
+  imageElement.alt = card.name;
+  imageCaptionElement.textContent = card.name;
 
   openModal(imagePopup);
 };
 
+let targetCard;
+const handleDeleteCard = (event, card) => {
+  targetCard = card;
+
+  openModal(confirmPopup);
+};
+
 Promise.all([getCards(), getProfileId()])
 .then(([cards, profileId]) => {
-  cards.forEach(card => cardsContainer.append(createCardElement(card, profileId, handleOpenImagePopup)));
+  cards.forEach(card => cardsContainer.append(createCardElement(card, profileId, handleLikeCard, handleClickCard, handleDeleteCard)));
 })
 .catch(err => console.log(err));
 
@@ -122,7 +136,7 @@ const handleCardFormSubmit = event => {
 
   Promise.all([createCard(name, link), getProfileId()])
   .then(([card, profileId]) => {
-    cardsContainer.prepend(createCardElement(card, profileId, handleOpenImagePopup));
+    cardsContainer.prepend(createCardElement(card, profileId, handleLikeCard, handleClickCard, handleDeleteCard));
     handleModalClose(event);
   })
   .catch(err => console.log(err))
@@ -141,3 +155,20 @@ const openCardPopup = () => {
 
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
 document.querySelector('.profile__add-button').addEventListener('click', openCardPopup);
+
+
+const handleConfirmFormSubmit = event => {
+  confirmFormButton.textContent = 'Удаление...';
+
+  deleteCard(targetCard._id)
+  .then(() => {
+    deleteCardElement(targetCard);
+    targetCard = undefined;
+    handleModalClose(event);
+  })
+  .catch(err => console.log(err))
+  .finally(() => {
+    confirmFormButton.textContent = 'Да';
+  });
+};
+confirmFormElement.addEventListener('submit', handleConfirmFormSubmit);

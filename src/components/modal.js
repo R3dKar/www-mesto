@@ -5,11 +5,15 @@ const handleEscapeKeyPress = event => {
 };
 
 export const openModal = popup => {
+  if (popup.classList.contains('popup_is-opened')) return;
+
   popup.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleEscapeKeyPress);
 };
 
 export const closeModal = popup => {
+  if (!popup.classList.contains('popup_is-opened')) return;
+
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', handleEscapeKeyPress);
 };

@@ -21,7 +21,7 @@ export const configureModal = popup => {
 
   popup.querySelector('.popup__close').addEventListener('click', () => closeModal(popup));
 
-  popup.addEventListener('click', event => {
+  popup.addEventListener('mousedown', event => {
     if (!event.target.classList.contains('popup')) return;
     closeModal(popup);
   });

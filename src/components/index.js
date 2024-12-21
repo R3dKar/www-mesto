@@ -1,7 +1,7 @@
 import '../pages/index.css';
 
-import { initialCards } from './cards.js';
 import { createCard } from './card.js';
+import { getCards, getProfile } from './api.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
 import { enableValidation, clearFormErrorMessages } from './validation.js';
 
@@ -30,6 +30,7 @@ configureModal(imagePopup);
 const cardsContainer = document.querySelector('.places__list');
 const nameElement = document.querySelector('.profile__title');
 const descriptionElement = document.querySelector('.profile__description');
+const avatarElement = document.querySelector('.profile__image');
 
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const profileNameInput = profileFormElement.querySelector('.popup__input_type_name');
@@ -57,8 +58,19 @@ const handleOpenImagePopup = event => {
   openModal(imagePopup);
 };
 
-initialCards.forEach(card => cardsContainer.append(createCard(card, handleOpenImagePopup)));
+getCards()
+.then(cards => {
+  cards.forEach(card => cardsContainer.append(createCard(card, handleOpenImagePopup)));
+})
+.catch(err => console.log(err));
 
+getProfile()
+.then(data => {
+  nameElement.textContent = data.name;
+  descriptionElement.textContent = data.about;
+  avatarElement.style.backgroundImage = `url(${data.avatar})`;
+})
+.catch(err => console.log(err));
 
 const handleProfileFormSubmit = event => {
   const name = profileNameInput.value;

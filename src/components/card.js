@@ -3,6 +3,7 @@ const cardTemplate = document.querySelector('#card-template').content;
 export const createCard = (card, onClickHandler) => {
   const cardElement = cardTemplate.cloneNode(true);
 
+  cardElement.querySelector('.card').id = `card-${card._id}`;
   cardElement.querySelector('.card__image').src = card.link;
   cardElement.querySelector('.card__image').alt = card.name;
   cardElement.querySelector('.card__title').textContent = card.name;

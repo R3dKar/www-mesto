@@ -1,7 +1,7 @@
 import '../pages/index.css';
 
 import { createCard } from './card.js';
-import { getCards, getProfile, getProfileId } from './api.js';
+import { editProfile, getCards, getProfile, getProfileId } from './api.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
 import { enableValidation, clearFormErrorMessages } from './validation.js';
 
@@ -39,6 +39,7 @@ const avatarElement = document.querySelector('.profile__image');
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const profileNameInput = profileFormElement.querySelector('.popup__input_type_name');
 const profileDescriptionInput = profileFormElement.querySelector('.popup__input_type_description');
+const profileFormButton = profileFormElement.querySelector('.popup__button');
 
 const cardFormElement = cardPopup.querySelector('.popup__form');
 const cardNameInput = cardFormElement.querySelector('.popup__input_type_card-name');
@@ -46,6 +47,17 @@ const cardUrlInput = cardFormElement.querySelector('.popup__input_type_url');
 
 const imageElement = imagePopup.querySelector('.popup__image');
 const imageCaptionElement = imagePopup.querySelector('.popup__caption');
+
+
+const updateProfile = data => {
+  nameElement.textContent = data.name;
+  descriptionElement.textContent = data.about;
+  avatarElement.style.backgroundImage = `url(${data.avatar})`;
+};
+
+getProfile()
+.then(data => updateProfile(data))
+.catch(err => console.log(err));
 
 
 const handleOpenImagePopup = event => {
@@ -62,16 +74,6 @@ const handleOpenImagePopup = event => {
   openModal(imagePopup);
 };
 
-
-getProfile()
-.then(data => {
-  nameElement.textContent = data.name;
-  descriptionElement.textContent = data.about;
-  avatarElement.style.backgroundImage = `url(${data.avatar})`;
-})
-.catch(err => console.log(err));
-
-
 Promise.all([getCards(), getProfileId()])
 .then(([cards, profileId]) => {
   cards.forEach(card => cardsContainer.append(createCard(card, profileId, handleOpenImagePopup)));
@@ -83,10 +85,17 @@ const handleProfileFormSubmit = event => {
   const name = profileNameInput.value;
   const description = profileDescriptionInput.value;
 
-  nameElement.textContent = name;
-  descriptionElement.textContent = description;
+  profileFormButton.textContent = 'Сохранение...';
 
-  handleModalClose(event);
+  editProfile(name, description)
+  .then(data => {
+    updateProfile(data);
+    handleModalClose(event);
+  })
+  .catch(err => console.log(err))
+  .finally(() => {
+    profileFormButton.textContent = 'Сохранить';
+  });
 };
 
 const openProfilePopup = () => {

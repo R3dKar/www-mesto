@@ -11,3 +11,5 @@
 @import url(./__title/profile__title.css);
 
 @import url(./__image/profile__image.css);
+
+@import url(./__image-edit-overlay/profile__image-edit-overlay.css);

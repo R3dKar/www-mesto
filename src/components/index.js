@@ -1,7 +1,7 @@
 import '../pages/index.css';
 
 import { createCardElement, deleteCardElement, updateCardElement } from './card.js';
-import { getProfile, getProfileId, editProfile, getCards, createCard, deleteCard, removeLike, addLike } from './api.js';
+import { getProfile, getProfileId, editProfile, getCards, createCard, deleteCard, removeLike, addLike, editProfileAvatar } from './api.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
 import { enableValidation, clearFormErrorMessages } from './validation.js';
 
@@ -52,11 +52,17 @@ const imageCaptionElement = imagePopup.querySelector('.popup__caption');
 const confirmFormElement = confirmPopup.querySelector('.popup__form');
 const confirmFormButton = confirmFormElement.querySelector('.popup__button');
 
+const avatarFormElement = avatarPopup.querySelector('.popup__form');
+const avatarUrlInput = avatarFormElement.querySelector('.popup__input_type_profile-avatar');
+const avatarFormButton = avatarFormElement.querySelector('.popup__button');
 
+let currentAvatarUrl;
 const updateProfile = data => {
   nameElement.textContent = data.name;
   descriptionElement.textContent = data.about;
+
   avatarElement.style.backgroundImage = `url(${data.avatar})`;
+  currentAvatarUrl = data.avatar;
 };
 
 getProfile()
@@ -171,4 +177,32 @@ const handleConfirmFormSubmit = event => {
     confirmFormButton.textContent = 'Да';
   });
 };
+
 confirmFormElement.addEventListener('submit', handleConfirmFormSubmit);
+
+
+const openAvatarPopup = () => {
+  avatarUrlInput.value = currentAvatarUrl;
+
+  clearFormErrorMessages(avatarFormElement, validationSettings);
+  openModal(avatarPopup);
+};
+
+const handleAvatarFormSubmit = event => {
+  const avatarUrl = avatarUrlInput.value;
+
+  avatarFormButton.textContent = 'Сохранение...';
+
+  editProfileAvatar(avatarUrl)
+  .then(data => {
+    updateProfile(data);
+    handleModalClose(event);
+  })
+  .catch(err => console.log(err))
+  .finally(() => {
+    avatarFormButton.textContent = 'Сохранить';
+  });
+};
+
+avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
+avatarElement.addEventListener('click', openAvatarPopup);

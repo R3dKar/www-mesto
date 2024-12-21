@@ -20,17 +20,6 @@ export const getProfile = () => wrapApiRequest(
   })
 );
 
-let profileId;
-
-export const getProfileId = () => {
-  if (profileId !== undefined) return Promise.resolve(profileId);
-
-  return getProfile().then(data => {
-    profileId = data._id;
-    return profileId;
-  });
-};
-
 export const editProfile = (name, about) => wrapApiRequest(
   fetch(`${baseUrl}/users/me`, {
     method: 'PATCH',

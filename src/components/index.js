@@ -59,7 +59,7 @@ const avatarFormElement = avatarPopup.querySelector('.popup__form');
 const avatarUrlInput = avatarFormElement.querySelector('.popup__input_type_profile-avatar');
 const avatarFormButton = avatarFormElement.querySelector('.popup__button');
 
-
+let profileId;
 let currentAvatarUrl;
 let targetCardForDeletion;
 
@@ -74,11 +74,8 @@ const updateProfile = data => {
 
 
 const handleLikeCard = (event, card) => {
-  Promise.all([
-    (event.target.classList.contains('card__like-button_is-active') ? removeLike(card._id) : addLike(card._id)),
-    getProfileId()
-  ])
-  .then(([card, profileId]) => updateCardElement(card, profileId))
+  (event.target.classList.contains('card__like-button_is-active') ? removeLike(card._id) : addLike(card._id))
+  .then(card => updateCardElement(card, profileId))
   .catch(err => console.log(err));
 };
 
@@ -136,8 +133,8 @@ const handleCardFormSubmit = event => {
 
   cardFormButton.textContent = 'Сохранение...';
 
-  Promise.all([createCard(name, link), getProfileId()])
-  .then(([card, profileId]) => {
+  createCard(name, link)
+  .then(card => {
     cardsContainer.prepend(createCardElement(card, profileId, handleLikeCard, handleClickCard, handleDeleteCard));
     handleModalClose(event);
   })
@@ -204,19 +201,20 @@ avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 
 
 editProfileButton.setAttribute('disabled', '');
+addCardButton.setAttribute('disabled', '');
 
 getProfile()
 .then(data => {
+  profileId = data._id;
+
   updateProfile(data);
 
   editProfileButton.removeAttribute('disabled');
+  addCardButton.removeAttribute('disabled');
   avatarElement.addEventListener('click', openAvatarPopup);
 })
-.catch(err => console.log(err));
-
-
-Promise.all([getCards(), getProfileId()])
-.then(([cards, profileId]) => {
+.then(getCards)
+.then(cards=> {
   cards.forEach(card => cardsContainer.append(createCardElement(card, profileId, handleLikeCard, handleClickCard, handleDeleteCard)));
 })
 .catch(err => console.log(err));

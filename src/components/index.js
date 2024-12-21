@@ -1,7 +1,7 @@
 import '../pages/index.css';
 
 import { createCard } from './card.js';
-import { getCards, getProfile } from './api.js';
+import { getCards, getProfile, getProfileId } from './api.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
 import { enableValidation, clearFormErrorMessages } from './validation.js';
 
@@ -58,11 +58,6 @@ const handleOpenImagePopup = event => {
   openModal(imagePopup);
 };
 
-getCards()
-.then(cards => {
-  cards.forEach(card => cardsContainer.append(createCard(card, handleOpenImagePopup)));
-})
-.catch(err => console.log(err));
 
 getProfile()
 .then(data => {
@@ -71,6 +66,14 @@ getProfile()
   avatarElement.style.backgroundImage = `url(${data.avatar})`;
 })
 .catch(err => console.log(err));
+
+
+Promise.all([getCards(), getProfileId()])
+.then(([cards, profileId]) => {
+  cards.forEach(card => cardsContainer.append(createCard(card, profileId, handleOpenImagePopup)));
+})
+.catch(err => console.log(err));
+
 
 const handleProfileFormSubmit = event => {
   const name = profileNameInput.value;

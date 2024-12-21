@@ -8,6 +8,7 @@
 @import url(./__like-button/_is-active/card__like-button_is-active.css);
 
 @import url(./__delete-button/card__delete-button.css);
+@import url(./__delete-button/_active/card__delete-button_active.css);
 
 @import url(./__title/card__title.css);
 

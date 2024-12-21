@@ -1,7 +1,7 @@
 import '../pages/index.css';
 
-import { createCard } from './card.js';
-import { editProfile, getCards, getProfile, getProfileId } from './api.js';
+import { createCardElement } from './card.js';
+import { editProfile, getCards, getProfile, getProfileId, createCard } from './api.js';
 import { openModal, handleModalClose, configureModal } from './modal.js';
 import { enableValidation, clearFormErrorMessages } from './validation.js';
 
@@ -44,6 +44,7 @@ const profileFormButton = profileFormElement.querySelector('.popup__button');
 const cardFormElement = cardPopup.querySelector('.popup__form');
 const cardNameInput = cardFormElement.querySelector('.popup__input_type_card-name');
 const cardUrlInput = cardFormElement.querySelector('.popup__input_type_url');
+const cardFormButton = cardFormElement.querySelector('.popup__button');
 
 const imageElement = imagePopup.querySelector('.popup__image');
 const imageCaptionElement = imagePopup.querySelector('.popup__caption');
@@ -76,7 +77,7 @@ const handleOpenImagePopup = event => {
 
 Promise.all([getCards(), getProfileId()])
 .then(([cards, profileId]) => {
-  cards.forEach(card => cardsContainer.append(createCard(card, profileId, handleOpenImagePopup)));
+  cards.forEach(card => cardsContainer.append(createCardElement(card, profileId, handleOpenImagePopup)));
 })
 .catch(err => console.log(err));
 
@@ -114,13 +115,20 @@ document.querySelector('.profile__edit-button').addEventListener('click', openPr
 
 
 const handleCardFormSubmit = event => {
-  const card = {
-    name: cardNameInput.value,
-    link: cardUrlInput.value
-  };
+  const name = cardNameInput.value;
+  const link = cardUrlInput.value;
 
-  cardsContainer.prepend(createCard(card, handleOpenImagePopup));
-  handleModalClose(event);
+  cardFormButton.textContent = 'Сохранение...';
+
+  Promise.all([createCard(name, link), getProfileId()])
+  .then(([card, profileId]) => {
+    cardsContainer.prepend(createCardElement(card, profileId, handleOpenImagePopup));
+    handleModalClose(event);
+  })
+  .catch(err => console.log(err))
+  .finally(() => {
+    cardFormButton.textContent = 'Сохранить';
+  });
 };
 
 const openCardPopup = () => {

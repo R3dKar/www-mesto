@@ -203,18 +203,16 @@ avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 editProfileButton.setAttribute('disabled', '');
 addCardButton.setAttribute('disabled', '');
 
-getProfile()
-.then(data => {
-  profileId = data._id;
+Promise.all([getProfile(), getCards()])
+.then(([profileData, cards]) => {
+  profileId = profileData._id;
 
-  updateProfile(data);
+  updateProfile(profileData);
 
   editProfileButton.removeAttribute('disabled');
   addCardButton.removeAttribute('disabled');
   avatarElement.addEventListener('click', openAvatarPopup);
-})
-.then(getCards)
-.then(cards=> {
+
   cards.forEach(card => cardsContainer.append(createCardElement(card, profileId, handleLikeCard, handleClickCard, handleDeleteCard)));
 })
 .catch(err => console.log(err));

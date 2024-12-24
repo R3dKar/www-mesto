@@ -100,6 +100,7 @@ const handleProfileFormSubmit = event => {
   const description = profileDescriptionInput.value;
 
   profileFormButton.textContent = 'Сохранение...';
+  profileFormButton.setAttribute('disabled', '');
 
   editProfile(name, description)
   .then(data => {
@@ -109,6 +110,7 @@ const handleProfileFormSubmit = event => {
   .catch(err => console.log(err))
   .finally(() => {
     profileFormButton.textContent = 'Сохранить';
+    profileFormButton.removeAttribute('disabled');
   });
 };
 
@@ -132,6 +134,7 @@ const handleCardFormSubmit = event => {
   const link = cardUrlInput.value;
 
   cardFormButton.textContent = 'Сохранение...';
+  cardFormButton.setAttribute('disabled', '');
 
   createCard(name, link)
   .then(card => {
@@ -141,6 +144,7 @@ const handleCardFormSubmit = event => {
   .catch(err => console.log(err))
   .finally(() => {
     cardFormButton.textContent = 'Сохранить';
+    cardFormButton.removeAttribute('disabled');
   });
 };
 
@@ -158,6 +162,7 @@ addCardButton.addEventListener('click', openCardPopup);
 
 const handleConfirmFormSubmit = event => {
   confirmFormButton.textContent = 'Удаление...';
+  confirmFormButton.setAttribute('disabled', '');
 
   deleteCard(targetCardForDeletion._id)
   .then(() => {
@@ -168,6 +173,7 @@ const handleConfirmFormSubmit = event => {
   .catch(err => console.log(err))
   .finally(() => {
     confirmFormButton.textContent = 'Да';
+    confirmFormButton.removeAttribute('disabled');
   });
 };
 
@@ -185,6 +191,7 @@ const handleAvatarFormSubmit = event => {
   const avatarUrl = avatarUrlInput.value;
 
   avatarFormButton.textContent = 'Сохранение...';
+  avatarFormButton.setAttribute('disabled', '');
 
   editProfileAvatar(avatarUrl)
   .then(data => {
@@ -194,6 +201,7 @@ const handleAvatarFormSubmit = event => {
   .catch(err => console.log(err))
   .finally(() => {
     avatarFormButton.textContent = 'Сохранить';
+    avatarFormButton.removeAttribute('disabled');
   });
 };
 

@@ -100,7 +100,11 @@ const handleProfileFormSubmit = event => {
   const description = profileDescriptionInput.value;
 
   profileFormButton.textContent = 'Сохранение...';
+  profileFormButton.classList.add('popup__button_disabled');
   profileFormButton.setAttribute('disabled', '');
+
+  profileNameInput.setAttribute('disabled', '');
+  profileDescriptionInput.setAttribute('disabled', '');
 
   editProfile(name, description)
   .then(data => {
@@ -111,6 +115,11 @@ const handleProfileFormSubmit = event => {
   .finally(() => {
     profileFormButton.textContent = 'Сохранить';
     profileFormButton.removeAttribute('disabled');
+    profileFormButton.classList.remove('popup__button_disabled');
+
+
+    profileNameInput.removeAttribute('disabled');
+    profileDescriptionInput.removeAttribute('disabled');
   });
 };
 
@@ -135,6 +144,10 @@ const handleCardFormSubmit = event => {
 
   cardFormButton.textContent = 'Сохранение...';
   cardFormButton.setAttribute('disabled', '');
+  cardFormButton.classList.add('popup__button_disabled');
+
+  cardNameInput.setAttribute('disabled', '');
+  cardUrlInput.setAttribute('disabled', '');
 
   createCard(name, link)
   .then(card => {
@@ -145,6 +158,10 @@ const handleCardFormSubmit = event => {
   .finally(() => {
     cardFormButton.textContent = 'Сохранить';
     cardFormButton.removeAttribute('disabled');
+    cardFormButton.classList.remove('popup__button_disabled');
+
+    cardNameInput.removeAttribute('disabled');
+    cardUrlInput.removeAttribute('disabled');
   });
 };
 
@@ -163,6 +180,7 @@ addCardButton.addEventListener('click', openCardPopup);
 const handleConfirmFormSubmit = event => {
   confirmFormButton.textContent = 'Удаление...';
   confirmFormButton.setAttribute('disabled', '');
+  confirmFormButton.classList.add('popup__button_disabled');
 
   deleteCard(targetCardForDeletion._id)
   .then(() => {
@@ -174,6 +192,7 @@ const handleConfirmFormSubmit = event => {
   .finally(() => {
     confirmFormButton.textContent = 'Да';
     confirmFormButton.removeAttribute('disabled');
+    confirmFormButton.classList.remove('popup__button_disabled');
   });
 };
 
@@ -192,6 +211,9 @@ const handleAvatarFormSubmit = event => {
 
   avatarFormButton.textContent = 'Сохранение...';
   avatarFormButton.setAttribute('disabled', '');
+  avatarFormButton.classList.add('popup__button_disabled');
+
+  avatarUrlInput.setAttribute('disabled', '');
 
   editProfileAvatar(avatarUrl)
   .then(data => {
@@ -202,6 +224,9 @@ const handleAvatarFormSubmit = event => {
   .finally(() => {
     avatarFormButton.textContent = 'Сохранить';
     avatarFormButton.removeAttribute('disabled');
+    avatarFormButton.classList.remove('popup__button_disabled');
+
+    avatarUrlInput.removeAttribute('disabled');
   });
 };
 
